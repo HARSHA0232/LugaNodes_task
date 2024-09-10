@@ -20,6 +20,7 @@ This repository contains a Dockerized environment for building `cardano-node` an
    ```
    git clone https://github.com/your-username/cardano-toolchain.git
    cd cardano-toolchain
+   ```
 
 2. **Build the Docker Image**:
 
@@ -34,14 +35,13 @@ docker build command creates a new Docker image from the Dockerfile.
 -t cardano-toolchain tags the image with the name cardano-toolchain for easy reference.
 ```
 
-Run the Docker Container:
+3. **Run the Docker Container**:
 Once the image is built, you can run the container and use it to build the Cardano binaries.
 
 ```
 docker run -it cardano-toolchain
 ```
 Explanation:
-
 docker run creates and starts a new container from the cardano-toolchain image.
 -it flag ensures the container is interactive (you can execute commands inside the container).
 Building cardano-node and cardano-cli Binaries:
@@ -54,39 +54,41 @@ After the build is complete, the binaries will be available in the /binaries/ di
 To verify the binaries have been built successfully, you can list the contents of the /binaries directory.
 Run the following command inside the container:
 
-
-
+````
 ls /binaries
+```
 You should see:
-
-plaintext
-
+```
 cardano-node
 cardano-cli
-Extract the Binaries (Optional):
+```
+4. **Extract the Binaries (Optional)**:
 
 If you want to copy the built binaries from the container to your host machine, you can use the docker cp command.
 
-
+```
 docker cp <container-id>:/binaries ./binaries
+```
 Replace <container-id> with the ID of your running container (which can be found using docker ps).
 Cleanup:
-
 Once you are done, you can stop and remove the container.
 
-
+```
 docker stop <container-id>
 docker rm <container-id>
-Understanding the Dockerfile
-The Dockerfile contains the instructions for setting up the build environment. Here's a brief overview:
+```
 
-Base Image: ubuntu:22.04 is used as the base image to ensure compatibility with all required dependencies.
-Installing Dependencies: Essential build tools, libraries (libsodium), and cabal (the Haskell build tool used for compiling Cardano) are installed.
-Build Scripts: The Dockerfile uses shell scripts located in the scripts/ directory to automate the installation and build processes.
-Binaries: The final output (the built binaries) is placed in the /binaries/ directory.
-Scripts Breakdown
-install_libsodium.sh: Installs libsodium (version 1.0.18), which is a required dependency for building Cardano binaries.
-build_cardano_node.sh: Clones the cardano-node repository, checks out version 9.1.1, and compiles it.
-build_cardano_cli.sh: Clones the cardano-cli repository, checks out version 9.2.1.0, and compiles it.
+Understanding the Dockerfile
+The `Dockerfile` contains the instructions for setting up the build environment. Here's a brief overview:
+
+ - Base Image: ubuntu:22.04 is used as the base image to ensure compatibility with all required dependencies.
+ - Installing Dependencies: Essential build tools, libraries (libsodium), and cabal (the Haskell build tool used for compiling Cardano) are installed.
+ - Build Scripts: The Dockerfile uses shell scripts located in the scripts/ directory to automate the installation and build processes.
+ - Binaries: The final output (the built binaries) is placed in the /binaries/ directory.
+
+## Scripts Breakdown
+ - install_libsodium.sh: Installs libsodium (version 1.0.18), which is a required dependency for building Cardano binaries.
+ - build_cardano_node.sh: Clones the cardano-node repository, checks out version 9.1.1, and compiles it.
+ - build_cardano_cli.sh: Clones the cardano-cli repository, checks out version 9.2.1.0, and compiles it.
 
 MADE BY BAJJURI HARSHA VARDHAN 21BDS0232
